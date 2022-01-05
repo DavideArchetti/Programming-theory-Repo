@@ -9,23 +9,26 @@ public class PlayerController : Piece
     void Start()
     {
         Debug.Log("PlayerController start");
-        m_GameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        Init();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (m_GameManager.isPlayerTurn)
+        if (m_GameManager.isPlayerTurn && !isMoving)
         {
             float horizontal = Input.GetAxis("Horizontal");
-            bool goRight  = Input.GetKeyDown(KeyCode.RightArrow);
-            bool goLeft = Input.GetKeyDown(KeyCode.LeftArrow);
-            bool goForward = Input.GetKeyDown(KeyCode.UpArrow);
-            bool goBack = Input.GetKeyDown(KeyCode.DownArrow);
+            bool goRight  = Input.GetKeyDown(KeyCode.RightArrow) | Input.GetKeyDown(KeyCode.Keypad6);
+            bool goLeft = Input.GetKeyDown(KeyCode.LeftArrow) | Input.GetKeyDown(KeyCode.Keypad4);
+            bool goForward = Input.GetKeyDown(KeyCode.UpArrow) | Input.GetKeyDown(KeyCode.Keypad8);
+            bool goBack = Input.GetKeyDown(KeyCode.DownArrow) | Input.GetKeyDown(KeyCode.Keypad2);
+            bool goNE = Input.GetKeyDown(KeyCode.Keypad9);
+            bool goNW = Input.GetKeyDown(KeyCode.Keypad7);
+            bool goSE = Input.GetKeyDown(KeyCode.Keypad3);
+            bool goSW = Input.GetKeyDown(KeyCode.Keypad1);
 
             if (goRight && transform.position.x < (m_GameManager.m_Board.m_Dimension.x-1) * m_GameManager.m_Board.m_SquareDistance)
             {
-                Debug.Log("Going Right");
                 Move(Vector3.right);
                 m_GameManager.isPlayerTurn = false;
             }
@@ -43,6 +46,26 @@ public class PlayerController : Piece
             {
                 Move(Vector3.back);
                 m_GameManager.isPlayerTurn = false;
+            }
+            if (goNE && transform.position.z < (m_GameManager.m_Board.m_Dimension.z - 1) * m_GameManager.m_Board.m_SquareDistance &&
+                        transform.position.x < (m_GameManager.m_Board.m_Dimension.x - 1) * m_GameManager.m_Board.m_SquareDistance)
+            {
+                Move(new Vector3(1, 0, 1));
+            }
+            if (goNW && transform.position.z < (m_GameManager.m_Board.m_Dimension.z - 1) * m_GameManager.m_Board.m_SquareDistance &&
+                        transform.position.x > 0)
+            {
+                Move(new Vector3(-1,0, 1));
+            }
+            if (goSE && transform.position.z > 0 &&
+                        transform.position.x < (m_GameManager.m_Board.m_Dimension.x - 1) * m_GameManager.m_Board.m_SquareDistance)
+            {
+                Move(new Vector3(1, 0, -1));
+            }
+            if (goSW && transform.position.x > 0 &&
+                        transform.position.z > 0)
+            {
+                Move(new Vector3(-1, 0, -1));
             }
         }
 
