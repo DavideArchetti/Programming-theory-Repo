@@ -14,9 +14,16 @@ public abstract class Piece : MonoBehaviour
 
     protected GameManager m_GameManager;
 
-    public bool isMoving => m_BoardPosition != m_NextPosition; 
-    private bool m_MoveDone = false;
-    public bool isMoveDone => m_MoveDone;
+    public bool isMoving => m_BoardPosition != m_NextPosition;
+    protected bool m_MoveDone = false;
+    public bool isMoveDone 
+    { 
+        get 
+        { 
+            if (gameObject.activeSelf) return m_MoveDone; 
+            return true;
+        } 
+    }
 
     private void Start()
     {
@@ -44,7 +51,7 @@ public abstract class Piece : MonoBehaviour
         }
         else
         {
-            m_MoveDone = false;
+            //m_MoveDone = false;
             if (m_StepsToDo.Count > 0)
             {
                 m_NextPosition = m_StepsToDo[0];
@@ -53,11 +60,16 @@ public abstract class Piece : MonoBehaviour
         }
     }
 
+    public void ResetMove()
+    {
+        m_MoveDone = false;
+    }
+
     /// <summary>
     /// Move a piece in the direction for m_MaxSteps allowes
     /// </summary>
     /// <param name="direction"></param>
-    virtual public void Move(Vector3 direction)
+    public void Move(Vector3 direction)
     {
         Vector3 nextPosition = m_BoardPosition;
         for (int s = 0; s < m_MaxSteps; s++)
@@ -66,6 +78,11 @@ public abstract class Piece : MonoBehaviour
             if (m_GameManager.IsPositionValid(nextPosition) && m_GameManager.IsPositionFree(nextPosition))
                 m_StepsToDo.Add(nextPosition);
         }
+    }
+
+    protected virtual void ThinkMove()
+    {
+        Debug.Log("VIRTUAL THINKMOVE");
     }
 
     protected void Init()
@@ -82,8 +99,11 @@ public abstract class Piece : MonoBehaviour
     /// <returns></returns>
     public bool IsPositionFinal(Vector3 pos)
     {
-        if (m_StepsToDo.Count()> 0)
+        if (m_StepsToDo.Count() > 0)
+        {
+            Debug.Log($"Final pos: {pos} - {m_StepsToDo.Last()}");
             return (pos - m_StepsToDo.Last()).magnitude < m_Tolerance;
+        }
         return false;
     }
 

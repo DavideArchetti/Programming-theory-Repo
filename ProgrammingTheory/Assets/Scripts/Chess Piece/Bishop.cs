@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rook : Piece
+public class Bishop : Piece
 {
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Rook START");
+        Debug.Log("Bishop START");
         m_MaxSteps = 2;
         Init();
     }
@@ -28,25 +28,9 @@ public class Rook : Piece
                 Vector3 playerDirection = m_GameManager.GetDirectionToPlayer(transform.position);
                 Vector3 direction;
 
-                if (Mathf.Abs(playerDirection.x) > Mathf.Abs(playerDirection.z))
-                {
-                    //Move(new Vector3(Mathf.Sign(playerDirection.x), 0, 0));
-                    direction = new Vector3(Mathf.Sign(playerDirection.x), 0, 0);
-                }
-                else
-                {
-                    //Move(new Vector3(0,0,Mathf.Sign(playerDirection.z)));
-                    direction = new Vector3(0,0,Mathf.Sign(playerDirection.z));
-                }
+                direction = new Vector3(Mathf.Sign(playerDirection.x), 0, Mathf.Sign(playerDirection.z));
 
                 Move(direction);
-
-                //Vector3 nextPosition = m_BoardPosition;
-                //for (int s = 0; s < m_MaxSteps; s++)
-                //{
-                //    nextPosition += (int)m_GameManager.m_Board.m_SquareDistance * direction;
-                //    m_StepsToDo.Enqueue(nextPosition);
-                //}
 
                 if (m_StepsToDo.Count < m_MaxSteps)
                 {
@@ -63,4 +47,6 @@ public class Rook : Piece
             }
         }
     }
+
+
 }

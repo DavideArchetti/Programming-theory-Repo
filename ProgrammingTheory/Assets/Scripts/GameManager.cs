@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
         else
         if (m_AITurn && m_AIPieces.All(x => x.isMoveDone))
         {
+            Debug.Log("RESET TURN");
+            m_AIPieces.ForEach(x => x.ResetMove());
+            m_Player.ResetMove();
+
             m_PlayerTurn = false;
             m_AITurn = false;
         }
