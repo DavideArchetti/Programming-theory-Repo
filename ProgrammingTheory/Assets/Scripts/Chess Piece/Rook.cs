@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rook : Piece
+public class Rook : Piece               // INHERITANCE
 {
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class Rook : Piece
         UpdateMove();
     }
 
-    protected override void ThinkMove()
+    protected override void ThinkMove()                 // POLYMORPHISM
     {
         if (m_GameManager.isAITurn)
         {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Horse : Piece
+public class Horse : Piece                  // INHERITANCE
 {
     void Start()
     {
@@ -18,7 +18,7 @@ public class Horse : Piece
         UpdateMove();
     }
 
-    protected override void ThinkMove()
+    protected override void ThinkMove()             // POLYMORPHISM
     {
         if (m_GameManager.isAITurn)
         {
@@ -55,6 +55,7 @@ public class Horse : Piece
                     //Full Movement not found!!!!
 
                     Debug.Log("MOVEMENT NOT FOUND!");
+                    m_StepsToDo.Clear();
                     m_MoveDone = true;
 
                 }

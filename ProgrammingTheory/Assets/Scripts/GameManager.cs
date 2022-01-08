@@ -9,11 +9,13 @@ public class GameManager : MonoBehaviour
     public Piece m_Player;
     public List<Piece> m_AIPieces;
 
+    private int m_MoveCount;
+
     private bool m_PlayerTurn;
-    public bool isPlayerTurn { get { return m_PlayerTurn; } set { m_PlayerTurn = value; } }
+    public bool isPlayerTurn { get { return m_PlayerTurn; } set { m_PlayerTurn = value; } }             // ENCAPSULATION
 
     private bool m_AITurn;
-    public bool isAITurn { get { return m_AITurn; } set { if (m_AITurn != value) { m_AITurn = value;} } }
+    public bool isAITurn { get { return m_AITurn; } set { if (m_AITurn != value) { m_AITurn = value;} } }           // ENCAPSULATION
 
     // Start is called before the first frame update
     void Start()
@@ -70,5 +72,10 @@ public class GameManager : MonoBehaviour
     public bool IsPositionFree(Vector3 pos)
     {
         return !m_AIPieces.Any(x => x.IsPositionFinal(pos));
+    }
+
+    public void IncreaseMoveCount()
+    {
+        m_MoveCount++;
     }
 }

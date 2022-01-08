@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Piece
+public class PlayerController : Piece           // INHERITANCE
 {
 
     // Start is called before the first frame update
@@ -17,7 +17,6 @@ public class PlayerController : Piece
     {
         if (m_GameManager.isPlayerTurn && !isMoving)
         {
-            float horizontal = Input.GetAxis("Horizontal");
             bool goRight  = Input.GetKeyDown(KeyCode.RightArrow) | Input.GetKeyDown(KeyCode.Keypad6);
             bool goLeft = Input.GetKeyDown(KeyCode.LeftArrow) | Input.GetKeyDown(KeyCode.Keypad4);
             bool goForward = Input.GetKeyDown(KeyCode.UpArrow) | Input.GetKeyDown(KeyCode.Keypad8);
@@ -30,22 +29,18 @@ public class PlayerController : Piece
             if (goRight && transform.position.x < (m_GameManager.m_Board.m_Dimension.x-1) * m_GameManager.m_Board.m_SquareDistance)
             {
                 Move(Vector3.right);
-                m_GameManager.isPlayerTurn = false;
             }
             if (goLeft && transform.position.x > 0)
             {
                 Move(Vector3.left);
-                m_GameManager.isPlayerTurn = false;
             }
             if (goForward && transform.position.z < (m_GameManager.m_Board.m_Dimension.z - 1) * m_GameManager.m_Board.m_SquareDistance)
             {
                 Move(Vector3.forward);
-                m_GameManager.isPlayerTurn = false;
             }
             if (goBack && transform.position.z > 0)
             {
                 Move(Vector3.back);
-                m_GameManager.isPlayerTurn = false;
             }
             if (goNE && transform.position.z < (m_GameManager.m_Board.m_Dimension.z - 1) * m_GameManager.m_Board.m_SquareDistance &&
                         transform.position.x < (m_GameManager.m_Board.m_Dimension.x - 1) * m_GameManager.m_Board.m_SquareDistance)
@@ -67,9 +62,31 @@ public class PlayerController : Piece
             {
                 Move(new Vector3(-1, 0, -1));
             }
+
+            if (goBack || goForward || goLeft || goRight || goNE || goNW || goSE || goSW)
+            {
+                m_GameManager.isPlayerTurn = false;
+                m_GameManager.IncreaseMoveCount();
+            }
         }
 
 
         UpdateMove();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        string otherName = other.gameObject.GetComponent<Piece>().GetType().Name;
+        Debug.Log("OnTriggerEnter:" + otherName);
+
+        if (otherName == "Horse" && other.gameObject.GetComponent<Piece>().isLastPosition)
+        {
+            Debug.Log("Catch!");
+        }
+        
+        if (otherName != "Horse")
+        {
+            Debug.Log("Catched!");
+        }
     }
 }

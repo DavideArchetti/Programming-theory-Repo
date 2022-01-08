@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bishop : Piece
+public class Bishop : Piece                         // INHERITANCE
 {
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class Bishop : Piece
         UpdateMove();
     }
 
-    protected override void ThinkMove()
+    protected override void ThinkMove()             // POLYMORPHISM
     {
         if (m_GameManager.isAITurn)
         {

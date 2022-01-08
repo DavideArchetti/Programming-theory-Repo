@@ -15,8 +15,11 @@ public abstract class Piece : MonoBehaviour
     protected GameManager m_GameManager;
 
     public bool isMoving => m_BoardPosition != m_NextPosition;
+
+    public bool isLastPosition => m_StepsToDo.Count == 0;
+
     protected bool m_MoveDone = false;
-    public bool isMoveDone 
+    public bool isMoveDone                                      // ENCAPSULATION
     { 
         get 
         { 
@@ -31,7 +34,7 @@ public abstract class Piece : MonoBehaviour
   
     }
 
-    virtual protected void UpdateMove()
+    virtual protected void UpdateMove()             // ABSTRACTION
     {
         if (isMoving)
         {
@@ -69,7 +72,7 @@ public abstract class Piece : MonoBehaviour
     /// Move a piece in the direction for m_MaxSteps allowes
     /// </summary>
     /// <param name="direction"></param>
-    public void Move(Vector3 direction)
+    public void Move(Vector3 direction)         // ABSTRACTION
     {
         Vector3 nextPosition = m_BoardPosition;
         for (int s = 0; s < m_MaxSteps; s++)
