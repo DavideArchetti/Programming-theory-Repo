@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public TextMeshProUGUI movesText;
+
     public Board m_Board;
     public Piece m_Player;
     public List<Piece> m_AIPieces;
@@ -77,5 +80,6 @@ public class GameManager : MonoBehaviour
     public void IncreaseMoveCount()
     {
         m_MoveCount++;
+        movesText.text = m_MoveCount.ToString();
     }
 }
