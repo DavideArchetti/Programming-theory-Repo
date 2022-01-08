@@ -15,6 +15,7 @@ public class PlayerController : Piece           // INHERITANCE
     // Update is called once per frame
     void Update()
     {
+        if (m_GameManager.IsGameOver) return;
         if (m_GameManager.isPlayerTurn && !isMoving)
         {
             bool goRight  = Input.GetKeyDown(KeyCode.RightArrow) | Input.GetKeyDown(KeyCode.Keypad6);
@@ -82,11 +83,13 @@ public class PlayerController : Piece           // INHERITANCE
         if (otherName == "Horse" && other.gameObject.GetComponent<Piece>().isLastPosition)
         {
             Debug.Log("Catch!");
+            m_GameManager.GameOver();
         }
         
         if (otherName != "Horse")
         {
             Debug.Log("Catched!");
+            m_GameManager.GameOver();
         }
     }
 }

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI movesText;
+    public GameObject gameOverUI;
 
     public Board m_Board;
     public Piece m_Player;
     public List<Piece> m_AIPieces;
 
+    private bool m_GameOver;
+    public bool IsGameOver => m_GameOver;
     private int m_MoveCount;
 
     private bool m_PlayerTurn;
@@ -80,6 +84,18 @@ public class GameManager : MonoBehaviour
     public void IncreaseMoveCount()
     {
         m_MoveCount++;
-        movesText.text = m_MoveCount.ToString();
+        movesText.text = $"Moves: {m_MoveCount.ToString()}";
+    }
+
+    public void GameOver()
+    {
+        m_GameOver = true;
+        gameOverUI.gameObject.SetActive(true);
+    }
+
+    public void PlayAgain()
+    {
+        m_MoveCount = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
