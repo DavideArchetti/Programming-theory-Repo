@@ -18,57 +18,69 @@ public class PlayerController : Piece           // INHERITANCE
         if (m_GameManager.IsGameOver) return;
         if (m_GameManager.isPlayerTurn && !isMoving)
         {
-            bool goRight  = Input.GetKeyDown(KeyCode.RightArrow) | Input.GetKeyDown(KeyCode.Keypad6);
-            bool goLeft = Input.GetKeyDown(KeyCode.LeftArrow) | Input.GetKeyDown(KeyCode.Keypad4);
-            bool goForward = Input.GetKeyDown(KeyCode.UpArrow) | Input.GetKeyDown(KeyCode.Keypad8);
-            bool goBack = Input.GetKeyDown(KeyCode.DownArrow) | Input.GetKeyDown(KeyCode.Keypad2);
+            bool goRight  = Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Keypad6);
+            bool goLeft = Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Keypad4);
+            bool goForward = Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Keypad8);
+            bool goBack = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.Keypad2);
             bool goNE = Input.GetKeyDown(KeyCode.Keypad9);
             bool goNW = Input.GetKeyDown(KeyCode.Keypad7);
             bool goSE = Input.GetKeyDown(KeyCode.Keypad3);
             bool goSW = Input.GetKeyDown(KeyCode.Keypad1);
 
-            if (goRight && transform.position.x < (m_GameManager.m_Board.m_Dimension.x-1) * m_GameManager.m_Board.m_SquareDistance)
+            if (goRight && transform.position.x < ((m_GameManager.m_Board.m_Dimension.x-1) * m_GameManager.m_Board.m_SquareDistance))
             {
+                Debug.Log("PlayerController move right");
                 Move(Vector3.right);
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
             if (goLeft && transform.position.x > 0)
             {
                 Move(Vector3.left);
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
             if (goForward && transform.position.z < (m_GameManager.m_Board.m_Dimension.z - 1) * m_GameManager.m_Board.m_SquareDistance)
             {
                 Move(Vector3.forward);
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
             if (goBack && transform.position.z > 0)
             {
                 Move(Vector3.back);
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
             if (goNE && transform.position.z < (m_GameManager.m_Board.m_Dimension.z - 1) * m_GameManager.m_Board.m_SquareDistance &&
                         transform.position.x < (m_GameManager.m_Board.m_Dimension.x - 1) * m_GameManager.m_Board.m_SquareDistance)
             {
                 Move(new Vector3(1, 0, 1));
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
             if (goNW && transform.position.z < (m_GameManager.m_Board.m_Dimension.z - 1) * m_GameManager.m_Board.m_SquareDistance &&
                         transform.position.x > 0)
             {
                 Move(new Vector3(-1,0, 1));
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
             if (goSE && transform.position.z > 0 &&
                         transform.position.x < (m_GameManager.m_Board.m_Dimension.x - 1) * m_GameManager.m_Board.m_SquareDistance)
             {
                 Move(new Vector3(1, 0, -1));
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
             if (goSW && transform.position.x > 0 &&
                         transform.position.z > 0)
             {
                 Move(new Vector3(-1, 0, -1));
+                m_GameManager.IncreaseMoveCount();
+                m_GameManager.isPlayerTurn = false;
             }
 
-            if (goBack || goForward || goLeft || goRight || goNE || goNW || goSE || goSW)
-            {
-                m_GameManager.isPlayerTurn = false;
-                m_GameManager.IncreaseMoveCount();
-            }
         }
 
 

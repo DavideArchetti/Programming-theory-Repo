@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour
 {
-    private const float m_Tolerance = 0.05f;        //Our precision for position movement
+    private const float m_Tolerance = 0.3f;        //Our precision for position movement
     protected int m_MaxSteps = 1;                   //max number of steps a piece can do
     protected Vector3 m_BoardPosition;              //Position on the checkboard (0,0,0) is the bottom left square of the board, Y is up not used
     protected Vector3 m_NextPosition;
@@ -41,13 +41,16 @@ public abstract class Piece : MonoBehaviour
             Vector3 direction = (m_NextPosition - m_BoardPosition).normalized;
 
             transform.Translate(direction * Time.deltaTime * m_MovementSpeed);
+            Debug.Log(gameObject.name + " UpdateMove: position " + transform.position + " nextPos:" + m_NextPosition + "distance:" + (transform.position - m_NextPosition).magnitude + "diff:" + (transform.position - m_NextPosition));
             if ((transform.position - m_NextPosition).magnitude < m_Tolerance)
             {
+                Debug.Log("In Tolerance");
                 transform.position = m_NextPosition;
                 m_BoardPosition = m_NextPosition;
 
                 if (m_StepsToDo.Count == 0)
                 {
+                    Debug.Log(gameObject + " move done!");
                     m_MoveDone = true;
                 }
             }
@@ -58,7 +61,9 @@ public abstract class Piece : MonoBehaviour
             if (m_StepsToDo.Count > 0)
             {
                 m_NextPosition = m_StepsToDo[0];
+                Debug.Log("UpdateMove step removed for " + gameObject.name);
                 m_StepsToDo.RemoveAt(0);
+                Debug.Log(gameObject.name + " steps left:" + m_StepsToDo.Count);
             }
         }
     }
